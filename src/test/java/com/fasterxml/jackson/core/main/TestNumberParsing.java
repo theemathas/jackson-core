@@ -49,6 +49,31 @@ public class TestNumberParsing
         assertEquals(Integer.MIN_VALUE, NumberInput.parseInt(""+Integer.MIN_VALUE));
         assertEquals(Integer.MAX_VALUE, NumberInput.parseInt(""+Integer.MAX_VALUE));
     }
+
+    public void testIntParsingWithDefault()
+    {
+        assertEquals(3, NumberInput.parseAsInt("3", 123));
+        assertEquals(0, NumberInput.parseAsInt("0", 123));
+        assertEquals(-3, NumberInput.parseAsInt("-3", 123));
+        assertEquals(4567, NumberInput.parseAsInt("4567", 123));
+        assertEquals(-4567, NumberInput.parseAsInt("-4567", 123));
+        assertEquals(Integer.MIN_VALUE, NumberInput.parseAsInt("" + Integer.MIN_VALUE, 123));
+        assertEquals(Integer.MAX_VALUE, NumberInput.parseAsInt("" + Integer.MAX_VALUE, 123));
+        final String OVERFLOW = "9999999999999999999";
+        assertEquals(123, NumberInput.parseAsInt(OVERFLOW, 123));
+        assertEquals(123, NumberInput.parseAsInt("-" + OVERFLOW, 123));
+        assertEquals(123, NumberInput.parseAsInt(null, 123));
+        assertEquals(123, NumberInput.parseAsInt("", 123));
+        assertEquals(123, NumberInput.parseAsInt("e", 123));
+        assertEquals(123, NumberInput.parseAsInt("hello", 123));
+        // These two cases don't behave like what I expect. Maybe it's a bug?
+        // assertEquals(123, NumberInput.parseAsInt("++1", 123));
+        // assertEquals(123, NumberInput.parseAsInt("+-1", 123));
+        assertEquals(123, NumberInput.parseAsInt("--1", 123));
+        assertEquals(123, NumberInput.parseAsInt("-+1", 123));
+        assertEquals(123, NumberInput.parseAsInt("-", 123));
+        assertEquals(123, NumberInput.parseAsInt("+", 123));
+    }
     
     public void testLongParsing() throws Exception
     {
